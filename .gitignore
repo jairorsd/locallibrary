@@ -1,0 +1,3 @@
+.*log
+locallibrary/settings.py
+db.sqlite3
