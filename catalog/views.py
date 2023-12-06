@@ -1,3 +1,5 @@
+import re
+from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Book, BookInstance, Author
 from django.views import generic
@@ -34,7 +36,7 @@ class BookListView(generic.ListView):
 
     queryset = Book.objects.filter(title__icontains='war')[:5] # Get 5 books containing
 
-    template_name = 'books/my_arbitrary_template_name_list.html'  # Specify your own
+    template_name = 'catalog/book_list.html'
 
     def get_queryset(self):
         return Book.objects.filter(title__icontains='war')[:5] # Get 5 books containing
@@ -46,8 +48,7 @@ class BookListView(generic.ListView):
         context['some_data'] = 'This is just some data'
         return context
 
-def book_detail(request, id):
-    book = Book.objects.get(id__exact=id)
-    context = {'book': book}
+class BookDetailView(generic.DetailView):
+    model = Book
 
-    return render(request, 'book_detail.html', context=context, content_type="text/html", status=200)
+    template_name = 'catalog/book_detail.html'
