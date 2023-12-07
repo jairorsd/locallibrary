@@ -1,8 +1,5 @@
-import re
-from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Book, BookInstance, Author
-from django.views import generic
 
 def index(request):
     #list_books = Book.objects.all()
@@ -29,6 +26,8 @@ def index(request):
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context, content_type="text/html", status=200)
 
+from django.views import generic
+
 class BookListView(generic.ListView):
     model = Book
 
@@ -50,5 +49,23 @@ class BookListView(generic.ListView):
 
 class BookDetailView(generic.DetailView):
     model = Book
-
+    
     template_name = 'catalog/book_detail.html'
+
+
+# from django.http import Http404
+
+# def book_detail_view(request, primary_key):
+#     try:
+#         book = Book.objects.get(pk=primary_key)
+#     except Book.DoesNotExist:
+#         raise Http404('Book does not exist')
+
+#     return render(request, 'catalog/book_detail.html', context={'book': book})
+
+
+# from django.shortcuts import get_object_or_404
+
+# def book_detail_view(request, primary_key):
+#     book = get_object_or_404(Book, pk=primary_key)
+#     return render(request, 'catalog/book_detail.html', context={'book': book})

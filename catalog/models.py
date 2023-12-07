@@ -1,6 +1,5 @@
 from django.db import models
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
-import uuid # Required for unique book instances
 
 class Genre(models.Model):
     """Model representing a book genre."""
@@ -84,6 +83,8 @@ class Book(models.Model):
         return ', '.join(genre.name for genre in self.genre.all()[:3])
     
     display_genre.short_description = 'Gênero'
+
+import uuid # Required for unique book instances
 
 class BookInstance(models.Model):
 
