@@ -33,12 +33,14 @@ class BookListView(generic.ListView):
 
     context_object_name = 'book_list'   # your own name for the list as a template
 
-    queryset = Book.objects.filter(title__icontains='war')[:5] # Get 5 books containing
-
     template_name = 'catalog/book_list.html'
 
-    def get_queryset(self):
-        return Book.objects.filter(title__icontains='war')[:5] # Get 5 books containing
+    paginate_by = 2
+
+    #queryset = Book.objects.filter(title__icontains='war')[:5] # Get 5 books containing
+
+    # def get_queryset(self):
+    #     return Book.objects.filter(title__icontains='war')[:5] # Get 5 books containing
     
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get the context
@@ -51,7 +53,6 @@ class BookDetailView(generic.DetailView):
     model = Book
     
     template_name = 'catalog/book_detail.html'
-
 
 # from django.http import Http404
 
