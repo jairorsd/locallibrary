@@ -54,6 +54,7 @@ class BookDetailView(generic.DetailView):
     
     template_name = 'catalog/book_detail.html'
 
+
 # from django.http import Http404
 
 # def book_detail_view(request, primary_key):
