@@ -29,6 +29,7 @@ def index(request):
 from django.views import generic
 
 class BookListView(generic.ListView):
+
     model = Book
 
     context_object_name = 'book_list'   # your own name for the list as a template
@@ -50,9 +51,25 @@ class BookListView(generic.ListView):
         return context
 
 class BookDetailView(generic.DetailView):
+
     model = Book
     
     template_name = 'catalog/book_detail.html'
+
+class AuthorListView(generic.ListView):
+
+    model = Book
+
+    context_object_name = 'author_list'
+
+    template_name = 'catalog/author_list.html'
+
+
+
+
+
+
+
 
 
 # from django.http import Http404
