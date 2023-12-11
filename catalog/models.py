@@ -1,3 +1,4 @@
+import calendar
 from django.db import models
 from django.urls import reverse # Used to generate URLs by reversing the URL patterns
 
@@ -31,6 +32,8 @@ class Language(models.Model):
         """String for representing the Model object (in Admin site etc.)"""
         return self.name
 
+from datetime import date
+
 class Author(models.Model):
     """Model representing an author."""
     first_name = models.CharField(max_length=100)
@@ -48,6 +51,31 @@ class Author(models.Model):
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.last_name}, {self.first_name}'
+    
+    def display_date(self):
+        dt_of_birth = self.date_of_birth
+        dt_of_death = self.date_of_death
+
+        if dt_of_birth:
+            dt = date.fromisoformat(dt_of_birth.isoformat())
+            if len(calendar.month_name[dt.month]) <= 5:
+                dt_of_birth = dt.strftime('%B %-d, %Y')
+            else:
+                dt_of_birth = dt.strftime('%b. %-d, %Y')
+        else:
+            dt_of_birth = ''
+
+        if dt_of_death:
+            dt = date.fromisoformat(dt_of_death.isoformat())
+            if len(calendar.month_name[dt.month]) <= 5:
+                dt_of_death = dt.strftime('%B %-d, %Y')
+            else:
+                dt_of_death = dt.strftime('%b. %-d, %Y')
+        else:
+            dt_of_death = ''
+        
+        return f'({dt_of_birth} - {dt_of_death})'
+
 
 class Book(models.Model):
     """Model representing a book (but not a specific copy of a book)."""
