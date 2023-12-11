@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from .models import Book, BookInstance, Author
 
@@ -16,11 +17,16 @@ def index(request):
     # The 'all()' is implied by default.
     num_authors = Author.objects.count()
 
+    # Number of visits to this view, as counted in the session variable.
+    num_visits = request.session.get('num_visits', 0)
+    request.session['num_visits'] = num_visits + 1
+
     context = {
         'num_books': num_books,
         'num_instances': num_instances,
         'num_instances_available': num_instances_available,
         'num_authors': num_authors,
+        'num_visits': num_visits,
     }
 
     # Render the HTML template index.html with the data in the context variable
@@ -29,7 +35,6 @@ def index(request):
 from django.views import generic
 
 class BookListView(generic.ListView):
-
     model = Book
 
     context_object_name = 'book_list'   # your own name for the list as a template
@@ -51,18 +56,20 @@ class BookListView(generic.ListView):
         return context
 
 class BookDetailView(generic.DetailView):
-
     model = Book
     
     template_name = 'catalog/book_detail.html'
 
 class AuthorListView(generic.ListView):
-
     model = Author 
+
     context_object_name = 'author_list'
+
     template_name = 'catalog/author_list.html'
 
-class AuthorDetailView(generic.DeleteView):
+    paginate_by = 2
+
+class AuthorDetailView(generic.DetailView):
     model = Author
 
     template_name = 'catalog/author_detail.html'

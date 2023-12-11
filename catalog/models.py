@@ -74,7 +74,7 @@ class Author(models.Model):
         else:
             dt_of_death = ''
         
-        return f'({dt_of_birth} - {dt_of_death})'
+        return f'{dt_of_birth} - {dt_of_death}'
 
 
 class Book(models.Model):

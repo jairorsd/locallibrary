@@ -6,7 +6,7 @@
     <ul>
       {% for author in author_list %}
       <li>
-        <a href="{{ author.get_absolute_url }}">{{ author }} {{ author.display_date }}</a>
+        <a href="{{ author.get_absolute_url }}">{{ author }} ({{ author.display_date }})</a>
       </li>
       {% endfor %}
     </ul>
