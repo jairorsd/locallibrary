@@ -1,4 +1,5 @@
 from django.contrib import admin
+#from django.contrib.auth.admin import UserAdmin
 from .models import Author, Genre, Book, BookInstance, Language
 
 # admin.site.register(Book)
@@ -6,6 +7,7 @@ from .models import Author, Genre, Book, BookInstance, Language
 admin.site.register(Genre)
 # admin.site.register(BookInstance)
 admin.site.register(Language)
+#admin.site.register(User, UserAdmin)
 
 class BooksInline(admin.TabularInline):
     model = Book
@@ -25,7 +27,6 @@ class BooksInstanceInline(admin.TabularInline):
     model = BookInstance
 
     extra = 0
-
 
 # Register the Admin classes for Book using the decorator
 @admin.register(Book)

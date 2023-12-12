@@ -23,6 +23,12 @@
               <li><a href="{% url 'index' %}">Home</a></li>
               <li><a href="{% url 'books' %}">All books</a></li>
               <li><a href="{% url 'authors' %}">All authors</a></li>
+              {% if user.is_authenticated %}
+                <li>User: {{ user.get_username }}</li>
+                <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
+              {% else %}
+                <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+              {% endif %}
             </ul>
           {% endblock %}
         </div>
@@ -49,27 +55,3 @@
     <script src="{% static 'js/script.js' %}"></script>
   </body>
 </html>
-
-<!--<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Home page</title>
-</head>
-<body>
-  <p>Books: {{ num_books }}</p>
-  <p>Instances: {{ num_instances }}</p>
-  <p>Available Instances: {{ num_instances_available }}</p>
-  <p>Authors: {{ num_authors }}</p>
-  <a href="{% url 'index' %}">Home</a>
-  {% if all_books %}
-    <ul>
-      {% for book in all_books %}
-        <li>{{ book.title }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>No books are available.</p>
-  {% endif %}
-</body>
-</html>-->

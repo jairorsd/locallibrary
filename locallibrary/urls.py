@@ -20,6 +20,7 @@ from django.urls import include
 from django.views.generic import RedirectView
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
@@ -28,4 +29,9 @@ urlpatterns = [
 
 urlpatterns += [
     path('catalog/', include('catalog.urls')),
+]
+
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', auth_views.LoginView.as_view(), name='login'),
 ]

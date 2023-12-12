@@ -1,6 +1,12 @@
-from django.http import HttpResponse
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Book, BookInstance, Author
+from django.views import View, generic
+
+class MinhaViewProtegida(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'minha_view.html'
 
 def index(request):
     #list_books = Book.objects.all()
@@ -31,8 +37,6 @@ def index(request):
 
     # Render the HTML template index.html with the data in the context variable
     return render(request, 'index.html', context=context, content_type="text/html", status=200)
-
-from django.views import generic
 
 class BookListView(generic.ListView):
     model = Book
@@ -73,8 +77,6 @@ class AuthorDetailView(generic.DetailView):
     model = Author
 
     template_name = 'catalog/author_detail.html'
-
-
 
 
 

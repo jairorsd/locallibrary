@@ -149,6 +149,3 @@ class BookInstance(models.Model):
         return self.book.title
     
     display_title.short_description = "Book"
-
-
-
