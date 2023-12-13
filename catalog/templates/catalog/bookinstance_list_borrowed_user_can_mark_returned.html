@@ -9,6 +9,7 @@
       {% for bookinst in bookinstance_list %}
       <li class="{% if bookinst.is_overdue %}text-danger{% endif %}">
         <a href="{% url 'book-detail' bookinst.book.pk %}">{{ bookinst.book.title }}</a> ({{ bookinst.due_back }})
+        - {{ bookinst.borrower }}
       </li>
       {% endfor %}
     </ul>
@@ -19,7 +20,3 @@
 {% endblock %}
 
 
-{% if perms.catalog.can_mark_returned %}
-    <!-- We can mark a BookInstance as returned. -->
-    <!-- Perhaps add code to link to a "book return" view here. -->
-{% endif %}

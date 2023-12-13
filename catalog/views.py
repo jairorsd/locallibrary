@@ -93,13 +93,25 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
-class MyView(PermissionRequiredMixin, View):
+class LoanedBooksByUserWithPermissionListView(PermissionRequiredMixin, generic.ListView):
+    model = BookInstance
+    template_name = 'catalog/bookinstance_list_borrowed_user_can_mark_returned.html'
     permission_required = 'catalog.can_mark_returned'
-    # Or multiple permissions
-    permission_required = ('catalog.can_mark_returned', 'catalog.change_book')
-    # Note that 'catalog.change_book' is permission
-    # Is created automatically for the book model, along with add_book, and delete_book
 
+    def get_queryset(self):
+        return (
+            BookInstance.objects.all()
+            .filter(status__exact='o')
+            .order_by('due_back')
+        )
+
+
+# class MyView(PermissionRequiredMixin, View):
+#     permission_required = 'catalog.can_mark_returned'
+#     # Or multiple permissions
+#     permission_required = ('catalog.can_mark_returned', 'catalog.change_book')
+#     # Note that 'catalog.change_book' is permission
+#     # Is created automatically for the book model, along with add_book, and delete_book
 
 # Function views
 
