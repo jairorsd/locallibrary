@@ -30,6 +30,7 @@
                 {% if user.is_staff %}
                   <li>Staff</li>
                 {% endif %}
+                <li><a href="{% url 'all-borrowed' %}?next={{ request.path }}">All borrowed</a></li>
               {% else %}
                 <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
               {% endif %}
