@@ -28,7 +28,14 @@
                 <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
                 <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
                 {% if user.is_staff %}
-                  <li>Staff</li>
+                <hr>
+                <ul class="sidebar-nav">
+                <li>Staff</li>
+                  <li><a href="{% url 'all-borrowed' %}">All borrowed</a></li>
+                {% if perms.catalog.add_author %}
+                  <li><a href="{% url 'author-create' %}">Create author</a></li>
+                {% endif %}
+                </ul>
                 {% endif %}
                 <li><a href="{% url 'all-borrowed' %}?next={{ request.path }}">All borrowed</a></li>
               {% else %}
