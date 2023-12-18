@@ -1,11 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Book, BookInstance, Author
-from django.views import View, generic
-
-class MinhaViewProtegida(LoginRequiredMixin, View):
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
+from django.views import generic
 
 def index(request):
     #list_books = Book.objects.all()
@@ -44,7 +40,7 @@ class BookListView(generic.ListView):
 
     template_name = 'catalog/book_list.html'
 
-    paginate_by = 2
+    paginate_by = 3
 
     #queryset = Book.objects.filter(title__icontains='war')[:5] # Get 5 books containing
 
@@ -70,7 +66,7 @@ class AuthorListView(generic.ListView):
 
     template_name = 'catalog/author_list.html'
 
-    paginate_by = 2
+    paginate_by = 3
 
 class AuthorDetailView(generic.DetailView):
     model = Author
@@ -109,10 +105,10 @@ import datetime
 
 from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import get_object_or_404
-from django.http import Http404, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 
-from catalog.forms import RenewBookForm
+from catalog.forms import RenewBookForm, CreateNewBookForm
 
 @login_required
 @permission_required('catalog.can_mark_returned', raise_exception=True)
@@ -151,6 +147,30 @@ def renew_book_librarian(request, pk):
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import Author
+
+class BookCreate(PermissionRequiredMixin, CreateView):
+    model = Book
+    form_class = CreateNewBookForm
+    permission_required = 'catalog.add_book'
+
+class BookUpdate(PermissionRequiredMixin, UpdateView):
+    model = Book
+    form_class = CreateNewBookForm
+    permission_required = 'catalog.update_book'
+
+class BookDelete(PermissionRequiredMixin, DeleteView):
+    model = Book
+    success_url = reverse_lazy('books')
+    permission_required = 'catalog.delete_book'
+
+    def form_valid(self, form):
+        try:
+            self.object.delete()
+            return HttpResponseRedirect(self.success_url)
+        except:
+            return HttpResponseRedirect(
+                reverse("book-delete", kwargs={"pk": self.object.pk})
+            )
 
 class AuthorCreate(PermissionRequiredMixin, CreateView):
     model = Author

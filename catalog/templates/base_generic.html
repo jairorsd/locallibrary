@@ -24,34 +24,38 @@
             <li><a href="{% url 'books' %}">All books</a></li>
             <li><a href="{% url 'authors' %}">All authors</a></li>
           </ul>
-            {% if user.is_authenticated %}
+          <ul class="sidebar-nav">
+            <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
+          {% if user.is_authenticated %}
+            <li>User: {{ user.get_username }}</li>
+            <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
+            {% if user.is_staff %}
+            <hr>
             <ul class="sidebar-nav">
-              <li>User: {{ user.get_username }}</li>
-              <li><a href="{% url 'my-borrowed' %}">My Borrowed</a></li>
-              <li><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></li>
-            </ul>
-              {% if user.is_staff %}
-              <hr>
-              <ul class="sidebar-nav">
-                <li>Staff</li>
-                <li><a href="{% url 'all-borrowed' %}">All borrowed</a></li>
-                {% if perms.catalog.add_author %}
-                <li><a href="{% url 'author-create' %}">Create author</a></li>
-                {% endif %}
-              </ul>
-              <hr>
-              <ul class="sidebar-nav">
-                {% if perms.catalog.update_author %}
-                <li><a href="">Update author</a></li>
-                {% endif %}
-                {% if perms.catalog.delete_author %}
-                <li><a href="">Delete author</a></li>
-                {% endif %}
-              </ul>
+              <li>Staff</li>
+              <li><a href="{% url 'all-borrowed' %}">All borrowed</a></li>
+              {% if perms.catalog.add_author %}
+              <li><a href="{% url 'author-create' %}">Create author</a></li>
               {% endif %}
-            {% else %}
-            <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+            </ul>
+            <hr>
+            <ul class="sidebar-nav">
+              {% if perms.catalog.update_author %}
+              <li><a href="">Update author</a></li>
+              {% endif %}
+              {% if perms.catalog.delete_author %}
+              <li><a href="">Delete author</a></li>
+              {% endif %}
+            </ul>
+            <ul class="sidebar-nav">
+              {% if perms.catalog.add_book %}
+              <li><a href="{% url 'book-create' %}">Create book</a></li>
+              {% endif %}
+            </ul>
             {% endif %}
+          {% else %}
+            <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+          {% endif %}
             </ul>
           {% endblock %}
         </div>
